@@ -1,0 +1,11 @@
+#ifndef __CP1251_CONVERTER_H_
+#define __CP1251_CONVERTER_H_
+
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
+
+int utf8_buf_to_cp1251(const char* utf8, char* windows1251, size_t n);
+char* utf8_string_to_cp1251(const char* utf8, char* windows1251);
+
+#endif
