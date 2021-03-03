@@ -1,5 +1,5 @@
-#ifndef __CP1251_CONVERTER_H_
-#define __CP1251_CONVERTER_H_
+#ifndef __CP1251_CONVERTER_HPP_
+#define __CP1251_CONVERTER_HPP_
 
 #include <cstdlib>
 #include <cstdio>
