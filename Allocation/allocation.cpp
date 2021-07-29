@@ -1,3 +1,6 @@
+#include <new>
+#include <cstdlib>
+
 /* Перегрузка операторов работы с памятью */
 
 void* operator new(std::size_t size)
