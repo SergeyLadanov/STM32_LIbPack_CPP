@@ -128,6 +128,7 @@ private:
 	static uint32_t GetTick(void);
 
 public:
+	// Размер буфера для статической инициализации
 	static constexpr uint32_t GetBufferSize(uint32_t task_count)
 	{
 		return (task_count * sizeof(Task *));
