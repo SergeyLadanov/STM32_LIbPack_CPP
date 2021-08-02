@@ -105,6 +105,16 @@ public:
 			State |= ACTIVATED;
 		}
 
+		bool IsActivated(void)
+		{
+			return (State & ACTIVATED);
+		}
+
+		bool InSingleLaunchMode(void)
+		{
+			return (State & SINGLE_LAUNCH);
+		}
+
 		void Proccess(void);
 
 	};
