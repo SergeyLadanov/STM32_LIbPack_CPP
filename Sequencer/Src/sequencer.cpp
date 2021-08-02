@@ -26,7 +26,7 @@ void Sequencer::IncTick(void)
 // Добавить задачу
 int8_t Sequencer::AddTask(Task *task)
 {
-	if (TaskCount < SEQUENCER_MAX_TASK_CNT)
+	if (TaskCount < Length)
 	{
 		Tasks[TaskCount] = task;
 		TaskCount++;

@@ -12,7 +12,6 @@
 
 #include <cstdint>
 
-#define SEQUENCER_MAX_TASK_CNT 5
 
 class Sequencer{
 
@@ -120,14 +119,41 @@ public:
 	};
 private:
 
-	Task *Tasks[SEQUENCER_MAX_TASK_CNT] = {nullptr};
+	Task **Tasks = nullptr;
 	uint32_t TaskCount = 0;
+	uint32_t Length = 0;
 
 	void HandleTask(Task *task);
 	static uint32_t Tick;
 	static uint32_t GetTick(void);
 
 public:
+	static constexpr uint32_t GetBufferSize(uint32_t task_count)
+	{
+		return (task_count * sizeof(Task *));
+	}
+	
+	// Конструктор с динамической инициализацией
+	Sequencer(uint32_t task_count)
+	{
+		Tasks = new Task*[task_count];
+		Length = task_count;
+	}
+	
+	// Конструктор со статической инициализацией
+	Sequencer(void *buf, uint32_t task_count)
+	{
+		Tasks = (Task**)buf;
+		Length = task_count;
+	}
+	
+	// Освобождение ресурсов после статической инициализации
+	void Dispose(void)
+	{
+		delete[] Tasks;
+		Length = 0;
+	}
+	
 	static void IncTick(void);
 	void Run(void);
 	int8_t AddTask(Task *task);
