@@ -94,7 +94,7 @@ void Sequencer::Task::Proccess(void)
 	}
 
 
-	if (((GetTick() - TickStart) >= Period) || (State == RUN_IMMEDIATELY_REQUEST))
+	if (((GetTick() - TickStart) >= Period) || (State & RUN_IMMEDIATELY_REQUEST))
 	{
 		if (Pf != nullptr)
 		{
