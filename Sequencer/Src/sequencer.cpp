@@ -102,6 +102,8 @@ void Sequencer::Task::Proccess(void)
 		}
 
 		TickStart = GetTick();
+		
+		State &= ~RUN_IMMEDIATELY_REQUEST;
 
 		if (State & SINGLE_LAUNCH)
 		{
