@@ -7,22 +7,27 @@
 #include "serial.hpp"
 
 
-#ifndef UNUSED
-#define UNUSED(X) (void)X
-#endif
+
+static uint8_t SerialReadBuf[SERIAL_READ_BUF_LEN];
+
+
+/******ШАБЛОНЫ РЕАЛИЗАЦИИ ПЕРЕОПРЕДЕЛЯЕМЫХ МЕТОДОВ*******/
+#if SERIAL_USE_VIRTUAL_INTERFACE == 0
 
 #ifndef __weak
 #define __weak __attribute__((weak))
 #endif
 
-static uint8_t SerialReadBuf[SERIAL_READ_BUF_LEN];
+
+#ifndef UNUSED
+#define UNUSED(X) (void)X
+#endif
 
 // Обработчик таймаута
 __weak void Serial::TimeOutCallBack(void)
 {
 	UNUSED(nullptr);
 }
-
 
 //Функция отправки данных
 __weak uint8_t Serial::SendData(uint8_t *data, uint16_t len)
@@ -32,7 +37,7 @@ __weak uint8_t Serial::SendData(uint8_t *data, uint16_t len)
 
 	return 0;
 }
-
+#endif
 
 // Конструкторы класса
 Serial::Serial(uint8_t *ringBuf,  uint32_t ringbufSize)

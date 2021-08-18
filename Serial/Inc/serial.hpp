@@ -15,6 +15,7 @@
 
 //Настройки библиотеки
 #define SERIAL_READ_BUF_LEN 1024
+#define SERIAL_USE_VIRTUAL_INTERFACE 0
 
 //--------------------------------------
 class Serial{
@@ -32,7 +33,6 @@ public:
 	Serial(uint8_t *ringBuf,  uint32_t ringbufSize, void *arg);
 	void TickHandle(void);
 	void ByteHandle(uint8_t data);
-	uint8_t SendData(uint8_t *data, uint16_t len);
 	uint8_t GetReceivedByte(void);
 	uint16_t Available(void);
 	char* GetBytes(void);
@@ -42,8 +42,20 @@ public:
 	uint16_t GetBytesUntil(uint8_t *rxBuf, char terminator, uint16_t maxLength);
 	char GetLastChar(void);
 	uint8_t LastSymbolIs(char symbol);
+	// Переопределяемые методы
+	// Передача данных
+#if SERIAL_USE_VIRTUAL_INTERFACE != 0
+	virtual uint8_t SendData(uint8_t *data, uint16_t len);
+#else
+	uint8_t SendData(uint8_t *data, uint16_t len);
+#endif
 private:
+	// Обработчик таймаута
+#if SERIAL_USE_VIRTUAL_INTERFACE != 0
+	virtual void TimeOutCallBack();
+#else
 	void TimeOutCallBack();
+#endif
 };
 
 #endif /* SERIAL_INC_SERIAL_HPP_ */
