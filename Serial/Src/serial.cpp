@@ -39,20 +39,6 @@ __weak uint8_t Serial::SendData(uint8_t *data, uint16_t len)
 }
 #endif
 
-// Конструкторы класса
-Serial::Serial(uint8_t *ringBuf,  uint32_t ringbufSize)
-{
-	RingBuffer = ringBuf;
-	Size = ringbufSize;
-	Arg = nullptr;
-}
-//---------------------------------
-Serial::Serial(uint8_t *ringBuf,  uint32_t ringbufSize, void *arg)
-{
-	RingBuffer = ringBuf;
-	Size = ringbufSize;
-	Arg = arg;
-}
 
 //Функция системного таймера
 void Serial::TickHandle(void)

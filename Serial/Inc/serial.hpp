@@ -28,9 +28,6 @@ protected:
 	uint16_t RecTimeOutCnt; //Переменная счета времени таймаута приема
 	uint16_t TimeOutValue; //Значение таймаута
 public:
-	inline Serial(void){};
-	Serial(uint8_t *ringBuf,  uint32_t ringbufSize);
-	Serial(uint8_t *ringBuf,  uint32_t ringbufSize, void *arg);
 	void TickHandle(void);
 	void ByteHandle(uint8_t data);
 	uint8_t GetReceivedByte(void);
@@ -42,17 +39,27 @@ public:
 	uint16_t GetBytesUntil(uint8_t *rxBuf, char terminator, uint16_t maxLength);
 	char GetLastChar(void);
 	uint8_t LastSymbolIs(char symbol);
+
+
+	inline Serial(uint8_t *ringBuf = nullptr,  uint32_t ringbufSize = 0, void *arg = nullptr)
+	{
+		RingBuffer = ringBuf;
+		Size = ringbufSize;
+		Arg = arg;
+	}
+
+
 	// Переопределяемые методы
 	// Передача данных
 #if SERIAL_USE_VIRTUAL_INTERFACE != 0
-	virtual uint8_t SendData(uint8_t *data, uint16_t len);
+	virtual uint8_t SendData(uint8_t *data, uint16_t len) = 0;
 #else
 	uint8_t SendData(uint8_t *data, uint16_t len);
 #endif
 private:
 	// Обработчик таймаута
 #if SERIAL_USE_VIRTUAL_INTERFACE != 0
-	virtual void TimeOutCallBack();
+	virtual void TimeOutCallBack() = 0;
 #else
 	void TimeOutCallBack();
 #endif
