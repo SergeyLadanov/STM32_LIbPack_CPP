@@ -45,14 +45,14 @@ public:
 	// Переопределяемые методы
 	// Передача данных
 #if SERIAL_USE_VIRTUAL_INTERFACE != 0
-	virtual uint8_t SendData(uint8_t *data, uint16_t len);
+	virtual uint8_t SendData(uint8_t *data, uint16_t len) = 0;
 #else
 	uint8_t SendData(uint8_t *data, uint16_t len);
 #endif
 private:
 	// Обработчик таймаута
 #if SERIAL_USE_VIRTUAL_INTERFACE != 0
-	virtual void TimeOutCallBack();
+	virtual void TimeOutCallBack() = 0;
 #else
 	void TimeOutCallBack();
 #endif
