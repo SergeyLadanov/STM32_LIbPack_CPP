@@ -9,7 +9,6 @@
 #define ADS8691_DRIVER_INC_ADS8691_H_
 
 #include <cstdint>
-#include <cstdio>
 #include <cstring>
 
 #define ADS8691_USE_VIRTUAL_INTERFACE 1

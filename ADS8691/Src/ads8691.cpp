@@ -53,6 +53,18 @@ __weak void ADS8691::WriteConv( bool state)
 {
 	UNUSED(state);
 }
+
+// Обработчик получения выборок
+__weak void ConversionComplete(int32_t *data)
+{
+	UNUSED(data);
+}
+
+// Задержка в мс
+__weak void Delay(uint32_t value)
+{
+	UNUSED(value);
+}
 /**********************************************************************************/
 #endif
 
@@ -84,9 +96,6 @@ void ADS8691::Write(uint8_t *txData, uint16_t len)
 			timeOut--;
 		else
 		{
-#ifdef DEBUG
-			printf("Error of init ADC!\r\n");
-#endif
 			break;
 		}
 
