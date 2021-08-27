@@ -17,14 +17,48 @@
 #define BUTTON_MULTICLICK_CLICK_DELAY 350
 #define BUTTON_MULTICLICK_CLICK_HOLD_DIVIDER 15
 
+#define BUTTON_USE_CALLBACKS 1
+#define BUTTON_USE_OBSERVER 1
+
+#if BUTTON_USE_OBSERVER != 0
+
+class Button;
+
+
+class ButtonListener
+{
+public:
+	virtual void PressedCallBack(Button *obj, uint8_t index) = 0;
+	virtual void HoldCallBack(Button *obj, uint8_t index) = 0;
+};
+
+
+class ButtonMultiClick;
+
+class ButtonMultiClickListener
+{
+public:
+	virtual void X1ClickCallBack(ButtonMultiClick *obj, uint8_t index) = 0;
+	virtual void X2ClickCallBack(ButtonMultiClick *obj, uint8_t index) = 0;
+	virtual void X3ClickCallBack(ButtonMultiClick *obj, uint8_t index) = 0;
+	virtual void HoldEventCallBack(ButtonMultiClick *obj, uint8_t index) = 0;
+	virtual void HoldCallBack(ButtonMultiClick *obj, uint8_t index) = 0;
+};
+
+#endif
+
 
 
 // Работа с кнопкой в обычном режиме
 typedef struct __ButtonDescriptor{
 	GPIO_TypeDef *GPIO_Port;
 	uint16_t Pin;
+#if BUTTON_USE_CALLBACKS == 1
+
 	void (*PressedCallBack)(void);
 	void (*HoldCallBack)(void);
+
+#endif
 } ButtonDescriptor;
 
 
@@ -37,11 +71,16 @@ typedef struct __ButtonProperties{
 typedef struct __ButtonMultiClickDescriptor{
 	GPIO_TypeDef *GPIO_Port;
 	uint16_t Pin;
+
+#if BUTTON_USE_CALLBACKS == 1
+
 	void (*X1ClickCallBack)(void);
 	void (*X2ClickCallBack)(void);
 	void (*X3ClickCallBack)(void);
 	void (*HoldEventCallBack)(void);
 	void (*HoldCallBack)(void);
+
+#endif
 } ButtonMultiClickDescriptor;
 
 
@@ -57,7 +96,25 @@ private:
 	const ButtonDescriptor *Desc;
 	ButtonProperties *Prop;
 	uint8_t Count;
+
+#if BUTTON_USE_OBSERVER == 1
+
+protected:
+	ButtonListener *Observer = nullptr;
+
+
+#endif
+
+
 public:
+#if BUTTON_USE_OBSERVER == 1
+
+	void Bind(ButtonListener * obj)
+	{
+		Observer = obj;
+	}
+
+#endif
 	inline Button(){}
 	// Конструктор класса кнопки (обычный режим)
 	inline Button(const ButtonDescriptor *desc, ButtonProperties *prop, uint8_t size)
@@ -75,7 +132,24 @@ private:
 	const ButtonMultiClickDescriptor *Desc;
 	ButMultiClickProperties *Prop;
 	uint8_t Count;
+
+#if BUTTON_USE_OBSERVER == 1
+
+protected:
+	ButtonMultiClickListener *Observer = nullptr;
+
+#endif
+
 public:
+#if BUTTON_USE_OBSERVER == 1
+
+	void Bind(ButtonMultiClickListener * obj)
+	{
+		Observer = obj;
+	}
+
+#endif
+
 	inline ButtonMultiClick(){}
 	// Конструктор класса кнопки (обычный мультиклик)
 	inline ButtonMultiClick(const ButtonMultiClickDescriptor *desc, ButMultiClickProperties *prop, uint8_t size)

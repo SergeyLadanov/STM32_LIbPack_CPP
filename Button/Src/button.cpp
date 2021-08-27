@@ -39,10 +39,19 @@ void Button::Handle(void)
 				Prop[i].HoldDelay++;
 				if (Prop[i].HoldDelay == BUTTON_HOLD_TIME)
 				{
+#if BUTTON_USE_CALLBACKS != 0
 					if (Desc[i].HoldCallBack != NULL)
 					{
 						Desc[i].HoldCallBack();
 					}
+#endif
+
+#if BUTTON_USE_OBSERVER != 0
+					if (Observer != nullptr)
+					{
+						Observer->HoldCallBack(this, i);
+					}
+#endif
 				}
 			}
 		}
@@ -50,11 +59,20 @@ void Button::Handle(void)
 		{
 			if ((Prop[i].HoldDelay > 0) && (Prop[i].HoldDelay < BUTTON_HOLD_TIME))
 			{
+#if BUTTON_USE_CALLBACKS != 0
 
 				if (Desc[i].PressedCallBack != NULL)
 				{
 					Desc[i].PressedCallBack();
 				}
+#endif
+
+#if BUTTON_USE_OBSERVER != 0
+				if (Observer != nullptr)
+				{
+					Observer->PressedCallBack(this, i);
+				}
+#endif
 			}
 			Prop[i].HoldDelay = 0;
 		}
@@ -86,10 +104,19 @@ void ButtonMultiClick::Handle(void)
 				{
 					Prop[i].ClickNum = 0;
 					Prop[i].ClickDelay = 0;
+#if BUTTON_USE_CALLBACKS != 0
 					if (Desc[i].HoldEventCallBack != NULL)
 					{
 						Desc[i].HoldEventCallBack();
 					}
+#endif
+
+#if BUTTON_USE_OBSERVER != 0
+					if (Observer != nullptr)
+					{
+						Observer->HoldEventCallBack(this, i);
+					}
+#endif
 				}
 			}
 			else
@@ -98,10 +125,19 @@ void ButtonMultiClick::Handle(void)
 
 				if (!Prop[i].HoldDivider)
 				{
+#if BUTTON_USE_CALLBACKS != 0
 					if (Desc[i].HoldCallBack != NULL)
 					{
 						Desc[i].HoldCallBack();
 					}
+#endif
+
+#if BUTTON_USE_OBSERVER != 0
+					if (Observer != nullptr)
+					{
+						Observer->HoldCallBack(this, i);
+					}
+#endif
 				}
 			}
 		}
@@ -116,23 +152,50 @@ void ButtonMultiClick::Handle(void)
 						switch(Prop[i].ClickNum)
 						{
 						case 1 :
+#if BUTTON_USE_CALLBACKS != 0
 							if (Desc[i].X1ClickCallBack != NULL)
 							{
 								Desc[i].X1ClickCallBack();
 							}
+#endif
+
+#if BUTTON_USE_OBSERVER != 0
+							if (Observer != nullptr)
+							{
+								Observer->X1ClickCallBack(this, i);
+							}
+#endif
 							break;
 						case 2 :
+#if BUTTON_USE_CALLBACKS != 0
 							if (Desc[i].X2ClickCallBack != NULL)
 							{
 								Desc[i].X2ClickCallBack();
 							}
+#endif
+
+#if BUTTON_USE_OBSERVER != 0
+							if (Observer != nullptr)
+							{
+								Observer->X2ClickCallBack(this, i);
+							}
+#endif
 							break;
 
 						case 3 :
+#if BUTTON_USE_CALLBACKS != 0
 							if (Desc[i].X3ClickCallBack != NULL)
 							{
 								Desc[i].X3ClickCallBack();
 							}
+#endif
+
+#if BUTTON_USE_OBSERVER != 0
+							if (Observer != nullptr)
+							{
+								Observer->X3ClickCallBack(this, i);
+							}
+#endif
 							break;
 						}
 
