@@ -13,6 +13,15 @@
 
 #define ADS8691_USE_VIRTUAL_INTERFACE 1
 
+class ADS8691;
+
+class IADS8691_Observer
+{
+public:
+	virtual void ConversionCompleted(ADS8691 *obj, int32_t *data) = 0;
+};
+
+
 class ADS8691{
 
 public:
