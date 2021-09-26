@@ -92,7 +92,8 @@ uint8_t Serial::GetReceivedByte(void)
 //------------------------------------
 uint16_t Serial::Available(void)
 {
-	while(RecTimeOutCnt);
+	volatile uint16_t *TimeOut = &RecTimeOutCnt;
+	while(*TimeOut);
 	return UnReadCnt;
 }
 //-----------------------------------------

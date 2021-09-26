@@ -15,18 +15,18 @@
 
 //Настройки библиотеки
 #define SERIAL_READ_BUF_LEN 1024
-#define SERIAL_USE_VIRTUAL_INTERFACE 0
+#define SERIAL_USE_VIRTUAL_INTERFACE 1
 
 //--------------------------------------
 class Serial{
 protected:
 	void *Arg;
-	uint8_t *RingBuffer; //Приемный кольцевой буфер
-	uint32_t Size; // Размер приемного кольцевого буфера
-	uint16_t WriteIndex; //Индекс записи в кольцевой буфер
-	uint16_t UnReadCnt; //Количество непрочитанных байт
-	uint16_t RecTimeOutCnt; //Переменная счета времени таймаута приема
-	uint16_t TimeOutValue; //Значение таймаута
+	uint8_t *RingBuffer = nullptr; //Приемный кольцевой буфер
+	uint32_t Size = 0; // Размер приемного кольцевого буфера
+	uint16_t WriteIndex = 0; //Индекс записи в кольцевой буфер
+	uint16_t UnReadCnt = 0; //Количество непрочитанных байт
+	uint16_t RecTimeOutCnt = 0; //Переменная счета времени таймаута приема
+	uint16_t TimeOutValue = 100; //Значение таймаута
 public:
 	void TickHandle(void);
 	void ByteHandle(uint8_t data);
