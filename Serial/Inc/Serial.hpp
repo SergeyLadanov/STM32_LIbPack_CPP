@@ -18,6 +18,7 @@
 #define SERIAL_USE_VIRTUAL_INTERFACE 1
 #define SERIAL_USE_RX_LOCKS 1
 #define SERIAL_USE_WAITTIMEOUT_HANDLER 1
+#define SERIAL_USE_WAITTFORRECEIVEDATA 1
 
 //--------------------------------------
 class Serial{
@@ -51,6 +52,13 @@ public:
 		Arg = arg;
 	}
 
+#if SERIAL_USE_WAITTFORRECEIVEDATA != 0
+#if SERIAL_USE_VIRTUAL_INTERFACE != 0
+	virtual bool WaitForData(uint32_t timeout) = 0;
+#else
+	bool WaitForData(uint32_t timeout);
+#endif
+#endif
 
 	// Переопределяемые методы
 	// Передача данных

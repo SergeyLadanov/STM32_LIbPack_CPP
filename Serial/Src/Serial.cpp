@@ -4,7 +4,7 @@
  *  Created on: 29 авг. 2019 г.
  *      Author: Acer
  */
-#include <Serial.hpp>
+#include "Serial.hpp"
 
 
 
@@ -58,6 +58,14 @@ __weak void TimeOutHandle(uint16_t value)
 }
 
 #endif
+
+#if SERIAL_USE_WAITTFORRECEIVEDATA != 0
+__weak bool WaitForData(uint32_t timeout)
+{
+
+}
+#endif
+
 #endif
 
 
@@ -291,3 +299,5 @@ void Serial::UpdateBufferIndex(uint32_t new_index)
 
 	RecTimeOutCnt = TimeOutValue;
 }
+//-------------------------------------------
+
