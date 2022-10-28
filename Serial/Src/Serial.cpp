@@ -60,7 +60,7 @@ __weak void TimeOutHandle(uint16_t value)
 #endif
 
 #if SERIAL_USE_WAITTFORRECEIVEDATA != 0
-__weak bool WaitForData(uint32_t timeout)
+__weak bool WaitForReceive(uint32_t timeout)
 {
 
 }

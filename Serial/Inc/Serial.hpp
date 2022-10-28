@@ -54,9 +54,9 @@ public:
 
 #if SERIAL_USE_WAITTFORRECEIVEDATA != 0
 #if SERIAL_USE_VIRTUAL_INTERFACE != 0
-	virtual bool WaitForData(uint32_t timeout) = 0;
+	virtual bool WaitForReceive(uint32_t timeout) = 0;
 #else
-	bool WaitForData(uint32_t timeout);
+	bool WaitForReceive(uint32_t timeout);
 #endif
 #endif
 
