@@ -3,9 +3,9 @@
 class A
 {
 private:
-    GenericCallback<int16_t> *tesCallback = nullptr;
+    GenericCallback<uint32_t, int16_t> *tesCallback = nullptr;
 public:
-    void SetCallBack(GenericCallback<int16_t> &in)
+    void SetCallBack(GenericCallback<uint32_t, int16_t> &in)
     {
         tesCallback = &in;
     }
@@ -14,7 +14,10 @@ public:
     {
         if (tesCallback)
         {
-            tesCallback->execute(35);
+            if (tesCallback->isValid())
+            {
+                tesCallback->execute(79);
+            }
         }   
     }
 };
@@ -25,7 +28,7 @@ class B
 {
 public:
     A a;
-    Callback<B, int16_t> itemSelectedCallBack;
+    Callback<B, uint32_t, int16_t> itemSelectedCallBack;
 public:
     B()
     :itemSelectedCallBack(this, &TestHandler)
@@ -38,16 +41,21 @@ public:
         a.Execute();
     }
 
-    void TestHandler(int16_t a)
+    uint32_t TestHandler(int16_t a)
     {
         printf("Success!!\r\n");
+
+        return 0;
     }
 };
 
 
-B test;
+B b;
 
 
 /*************************/
 
-test.Proccess();
+void TestCallBack(void)
+{
+    b.Proccess();
+}
