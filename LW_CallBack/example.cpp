@@ -1,4 +1,8 @@
-#include "CallBack.hpp"
+#include "LW_CallBack.hpp"
+
+
+using namespace lw_callback;
+
 
 class A
 {
@@ -12,12 +16,9 @@ public:
 
     void Execute(void)
     {
-        if (tesCallback)
+        if (*tesCallback)
         {
-            if (tesCallback->isValid())
-            {
-                tesCallback->execute(79);
-            }
+            (*tesCallback)(79);
         }   
     }
 };
@@ -64,12 +65,9 @@ public:
 
     void Execute(void)
     {
-        if (tesCallback)
+        if (*tesCallback)
         {
-            if (tesCallback->isValid())
-            {
-                tesCallback->execute(79);
-            }
+            (*tesCallback)(79);
         }   
     }
 };

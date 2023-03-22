@@ -1,10 +1,11 @@
-#ifndef __CALLBACK_HPP_
-#define __CALLBACK_HPP_
+#ifndef __LW_CALLBACK_HPP_
+#define __LW_CALLBACK_HPP_
 
 #include <cstdint>
 
 
-
+namespace lw_callback
+{
 /**
  * GenericCallback is the base class for callbacks.
  * 
@@ -32,6 +33,39 @@ public:
      * @return true If the callback is valid (i.e. safe to call execute).
      */
     virtual bool isValid() const = 0;
+
+
+    /**
+     * Function to check whether the Callback has been ready with to run.
+     *
+     * @return true If the callback is ready (i.e. safe to call execute).
+     */
+    inline bool isReadyToRun() const
+    {
+        return (this != 0) && isValid();
+    }
+
+
+    /**
+     * @brief Operator to call execute method as function
+     * 
+     * @param args This values set will be passed as the first argument in the function call.
+     * @return ReturnType 
+     */
+    ReturnType operator()(Args... args)
+    {
+        return execute(args ...);
+    }
+
+    /**
+     * Operator to check whether the Callback has been ready with to run.
+     *
+     * @return true If the callback is ready (i.e. safe to call execute).
+     */
+    operator bool() const
+    {
+        return isReadyToRun();
+    }
 };
 
 
@@ -181,6 +215,7 @@ using CallbackNoReturn = Callback<dest_type, void, Args...>;
 template<typename... Args>
 using CallbackStaticNoReturn = CallbackStatic<void, Args...>;
 
+}
 
 
 #endif
