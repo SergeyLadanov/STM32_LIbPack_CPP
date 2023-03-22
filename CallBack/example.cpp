@@ -50,12 +50,47 @@ public:
 };
 
 
+
+
+class A_Static
+{
+private:
+    GenericCallback<uint32_t, int16_t> *tesCallback = nullptr;
+public:
+    void SetCallBack(GenericCallback<uint32_t, int16_t> &in)
+    {
+        tesCallback = &in;
+    }
+
+    void Execute(void)
+    {
+        if (tesCallback)
+        {
+            if (tesCallback->isValid())
+            {
+                tesCallback->execute(79);
+            }
+        }   
+    }
+};
+
+
 B b;
+A_Static a_static;
 
 
+uint32_t TestHandler(int16_t a)
+{
+    printf("Callback from static!!\r\n");
+    return 0;
+}
+
+CallbackStatic<uint32_t, int16_t> itemSelectedCallBack(TestHandler);
 /*************************/
 
 void TestCallBack(void)
 {
+    a_static.SetCallBack(itemSelectedCallBack);
+    a_static.Execute();
     b.Proccess();
 }
