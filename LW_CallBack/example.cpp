@@ -3,13 +3,12 @@
 
 using namespace lw_callback;
 
-
 class A
 {
 private:
-    GenericCallback<uint32_t, int16_t> *tesCallback = nullptr;
+    GenericCallback<uint32_t(int16_t)> *tesCallback = nullptr;
 public:
-    void SetCallBack(GenericCallback<uint32_t, int16_t> &in)
+    void SetCallBack(GenericCallback<uint32_t(int16_t)> &in)
     {
         tesCallback = &in;
     }
@@ -29,7 +28,7 @@ class B
 {
 public:
     A a;
-    Callback<B, uint32_t, int16_t> itemSelectedCallBack;
+    Callback<B, uint32_t(int16_t)> itemSelectedCallBack;
 public:
     B()
     :itemSelectedCallBack(this, &TestHandler)
@@ -41,7 +40,7 @@ public:
     {
         a.Execute();
     }
-
+private:
     uint32_t TestHandler(int16_t a)
     {
         printf("Success!!\r\n");
@@ -56,9 +55,9 @@ public:
 class A_Static
 {
 private:
-    GenericCallback<uint32_t, int16_t> *tesCallback = nullptr;
+    GenericCallback<uint32_t(int16_t)> *tesCallback = nullptr;
 public:
-    void SetCallBack(GenericCallback<uint32_t, int16_t> &in)
+    void SetCallBack(GenericCallback<uint32_t(int16_t)> &in)
     {
         tesCallback = &in;
     }
@@ -83,7 +82,8 @@ uint32_t TestHandler(int16_t a)
     return 0;
 }
 
-CallbackStatic<uint32_t, int16_t> itemSelectedCallBack(TestHandler);
+Callback<uint32_t(int16_t)> itemSelectedCallBack(TestHandler);
+
 /*************************/
 
 void TestCallBack(void)

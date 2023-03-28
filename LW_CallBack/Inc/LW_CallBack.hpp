@@ -6,12 +6,15 @@
 
 namespace lw_callback
 {
+
+template <typename> struct GenericCallback;
+
 /**
  * GenericCallback is the base class for callbacks.
  * 
  */
 template <typename ReturnType, typename... Args>
-class GenericCallback
+class GenericCallback<ReturnType(Args ...)>
 {
 public:
     /** Finalizes an instance of the GenericCallback class. */
@@ -70,7 +73,7 @@ public:
 
 
 
-
+template <typename... Args> struct Callback;
 /**
  * A Callback is basically a wrapper of a pointer-to-member-function.
  *
@@ -85,7 +88,7 @@ public:
  */
 
 template <class dest_type, typename ReturnType, typename... Args>
-struct Callback : public GenericCallback<ReturnType, Args...>
+struct Callback<dest_type, ReturnType(Args...)> : public GenericCallback<ReturnType(Args...)>
 {
     /** Initializes a new instance of the Callback class. */
     Callback()
@@ -154,10 +157,10 @@ private:
  */
 
 template <typename ReturnType, typename... Args>
-struct CallbackStatic : public GenericCallback<ReturnType, Args...>
+struct Callback<ReturnType(Args...)> : public GenericCallback<ReturnType(Args...)>
 {
     /** Initializes a new instance of the Callback class. */
-    CallbackStatic()
+    Callback()
         : pmemfun(0)
     {
     }
@@ -173,7 +176,7 @@ struct CallbackStatic : public GenericCallback<ReturnType, Args...>
      * @param [in] pmemfun_ptr Address of member function. This is the version where function takes
      *                        three arguments.
      */
-    CallbackStatic(ReturnType (*pmemfun_ptr)(Args... args))
+    Callback(ReturnType (*pmemfun_ptr)(Args... args))
         : pmemfun(pmemfun_ptr)
     {
     }
@@ -203,17 +206,6 @@ private:
     ReturnType (*pmemfun)(Args... args);
 };
 
-
-template<typename... Args>
-using GenericCallbackNoReturn = GenericCallback<void, Args...>;
-
-
-template<class dest_type, typename... Args>
-using CallbackNoReturn = Callback<dest_type, void, Args...>;
-
-
-template<typename... Args>
-using CallbackStaticNoReturn = CallbackStatic<void, Args...>;
 
 }
 
